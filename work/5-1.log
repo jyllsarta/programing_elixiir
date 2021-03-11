@@ -1,0 +1,25 @@
+[localhost] ~/programming_elixiir/work/2-2 % iex
+Erlang/OTP 23 [erts-11.1.8] [source] [64-bit] [smp:12:12] [ds:12:12:10] [async-threads:1] [hipe] [dtrace]
+
+Interactive Elixir (1.11.3) - press Ctrl+C to exit (type h() ENTER for help)
+iex(1)> a = [1,2,3]
+[1, 2, 3]
+iex(2)> a
+[1, 2, 3]
+iex(3)> a = 4
+4
+iex(4)>
+nil
+iex(5)> 4 = a
+4
+iex(6)> [a,b] = [1,2,3]
+** (MatchError) no match of right hand side value: [1, 2, 3]
+
+iex(6)> a = [[1,2,3]]
+[[1, 2, 3]]
+iex(7)> [a] = [[1,2,3]]
+[[1, 2, 3]]
+iex(8)> [[a]] = [[1,2,3]]
+** (MatchError) no match of right hand side value: [[1, 2, 3]]
+
+iex(8)>
