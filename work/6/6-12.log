@@ -1,0 +1,28 @@
+
+## • 浮動小数点数を二つの 10進数からなる文字列 （"3.14" のような） に変換する 
+
+# io_lib の format が良さそう
+f = 4.33576
+List.to_string(:io_lib.format("~.2f",[f]))
+
+## •オペレーティングシステムの環境変数を取り出す （Elixir）
+
+# https://hexdocs.pm/elixir/System.html#get_env/0
+System.get_env
+
+## •ファイル名の拡張子を取り出す （"dave/test.exs" なら、 .exs を返す） （Elixir）
+
+# https://hexdocs.pm/elixir/Path.html#extname/1
+Path.extname("foo.erl")
+
+## •プロセスの現在の作業ディレクトリを返す （Elixir）
+
+File.cwd
+
+## •JSON文字列を、 Elixir のデータ構造に変換する （見つけるだけで、 インストールし ないでいい）
+
+# https://github.com/michalmuskala/jason
+
+## •オペレーティングシステムのシェルでコマンドを実行する。
+
+System.cmd("echo", ["hello"])
