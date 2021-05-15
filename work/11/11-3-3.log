@@ -1,0 +1,25 @@
+cd = [ 'cat' | 'dog']
+['cat', 100, 111, 103]
+Enum.count(cd)
+4
+iex(4)> [ head | tail ] = cd
+['cat', 100, 111, 103]
+iex(5)> head
+'cat'
+iex(6)> [head2 | tail2] = tail
+'dog'
+iex(7)> head2
+100
+iex(8)> tails
+** (CompileError) iex:8: undefined function tails/0
+
+iex(8)> tail2
+'og'
+
+```
+[ 'cat' | 'dog'] の実体は [[?c, ?a, ?t], ?d, ?o, ?g] の入れ子リスト
+入れ子の内側は中身が ?c, ?a, ?t で全部printableなので  'cat' って表示される
+入れ子の外側は中に [?c, ?a, ?t] というunprintableな要素が入っているのでdog部分が文字列として扱われない
+
+もしこの問題の意図が 'catdog' を作りたかった、ということなのであれば　'cat' ++ 'dog' とするとよい
+```
