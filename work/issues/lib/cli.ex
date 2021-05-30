@@ -56,6 +56,7 @@ defmodule Issues.CLI do
   end
 
   def decode_response({:ok, body}), do: body
+
   def decode_response({:error, error}) do
     IO.puts("Error fetching from GitHub: #{error["message"]}")
     System.halt(2)
@@ -69,8 +70,8 @@ defmodule Issues.CLI do
   end
 
   def last(list, count) do
-  list
-  |> Enum.take(count)
-  |> Enum.reverse
+    list
+    |> Enum.take(count)
+    |> Enum.reverse()
   end
 end
