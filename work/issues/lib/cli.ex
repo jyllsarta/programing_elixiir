@@ -9,6 +9,7 @@ defmodule Issues.CLI do
     argv
     |> parse_args
     |> process
+    |> Issues.Formatter.output
   end
 
   @doc """
