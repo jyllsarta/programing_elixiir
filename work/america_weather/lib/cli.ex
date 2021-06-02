@@ -26,6 +26,7 @@ defmodule Americaweather.CLI do
   def parse(body, xpath_string) do
     char_list = xpath_string |> :binary.bin_to_list()
     {root, _} = :xmerl_scan.string(body)
+    # このスーパー大雑把パターンマッチも絶対よくない
     [{:xmlText, _, _, _, text, :text}] = :xmerl_xpath.string(char_list, root)
     text
   end
