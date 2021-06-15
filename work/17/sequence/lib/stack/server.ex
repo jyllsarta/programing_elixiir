@@ -7,28 +7,45 @@ defmodule Sequence.Stack.Server do
     [ head | tail ] = items
     {:reply, head, tail}
   end
+  def handle_cast({:push, item}, items) do
+    {:noreply, items ++ [item]}
+  end
 end
 
 """
-iex(1)> {:ok, pid} = GenServer.start_link(Sequence.Stack.Server, [100, 4, 5])
-{:ok, #PID<0.162.0>}
-iex(2)> GenServer.call(pid, :pop)
-100
-iex(3)> GenServer.call(pid, :pop)
-4
-iex(4)> GenServer.call(pid, :pop)
-5
-iex(5)> GenServer.call(pid, :pop)
+Interactive Elixir (1.11.3) - press Ctrl+C to exit (type h() ENTER for help)
+iex(1)> r Sequence.Stack.Server
+iex(10)> warning: redefining module Sequence.Stack.Server (current version defined in memory)
+  lib/stack/server.ex:1
 
-22:50:37.226 [error] GenServer #PID<0.162.0> terminating
+{:reloaded, Sequence.Stack.Server, [Sequence.Stack.Server]}
+iex(2)>  {:ok, pid} = GenServer.start_link(Sequence.Stack.Server, [1001, 41, 51])
+{:ok, #PID<0.226.0>}
+iex(3)> GenServer.cast(pid, {:push, 5})
+:ok
+iex(4)> GenServer.cast(pid, {:push, 5})
+:ok
+iex(5)> GenServer.call(pid, :pop)
+1001
+iex(6)> GenServer.call(pid, :pop)
+41
+iex(7)> GenServer.call(pid, :pop)
+51
+iex(8)> GenServer.call(pid, :pop)
+5
+iex(9)> GenServer.call(pid, :pop)
+5
+iex(10)> GenServer.call(pid, :pop)
+iex(10)>
+17:59:31.178 [error] GenServer #PID<0.226.0> terminating
 ** (MatchError) no match of right hand side value: []
     (sequence 0.1.0) lib/stack/server.ex:7: Sequence.Stack.Server.handle_call/3
     (stdlib 3.14) gen_server.erl:715: :gen_server.try_handle_call/4
     (stdlib 3.14) gen_server.erl:744: :gen_server.handle_msg/6
     (stdlib 3.14) proc_lib.erl:226: :proc_lib.init_p_do_apply/3
-Last message (from #PID<0.160.0>): :pop
+Last message (from #PID<0.217.0>): :pop
 State: []
-Client #PID<0.160.0> is alive
+Client #PID<0.217.0> is alive
 
     (stdlib 3.14) gen.erl:208: :gen.do_call/4
     (elixir 1.11.3) lib/gen_server.ex:1024: GenServer.call/3
@@ -38,7 +55,7 @@ Client #PID<0.160.0> is alive
     (iex 1.11.3) lib/iex/evaluator.ex:261: IEx.Evaluator.handle_eval/5
     (iex 1.11.3) lib/iex/evaluator.ex:242: IEx.Evaluator.do_eval/3
     (iex 1.11.3) lib/iex/evaluator.ex:220: IEx.Evaluator.eval/3
-** (EXIT from #PID<0.160.0>) shell process exited with reason: an exception was raised:
+** (EXIT from #PID<0.217.0>) shell process exited with reason: an exception was raised:
     ** (MatchError) no match of right hand side value: []
         (sequence 0.1.0) lib/stack/server.ex:7: Sequence.Stack.Server.handle_call/3
         (stdlib 3.14) gen_server.erl:715: :gen_server.try_handle_call/4
