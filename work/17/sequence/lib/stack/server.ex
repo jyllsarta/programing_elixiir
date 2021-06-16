@@ -1,8 +1,27 @@
 defmodule Sequence.Stack.Server do
   use GenServer
+
+  # 以下は API
+
+  def start_link(items) do
+    IO.inspect __MODULE__
+    GenServer.start_link(__MODULE__, items, name: __MODULE__)
+  end
+
+  def push(item) do
+    GenServer.cast(__MODULE__, {:push, item})
+  end
+
+  def pop() do
+    GenServer.call(__MODULE__, :pop)
+  end
+
+  # 以下は GenServer
+
   def init(items) do
     {:ok, items}
   end
+
   def handle_call(:pop, _from, items) do
     [ head | tail ] = items
     {:reply, head, tail}
