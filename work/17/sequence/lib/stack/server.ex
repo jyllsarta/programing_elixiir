@@ -16,6 +16,10 @@ defmodule Sequence.Stack.Server do
     GenServer.call(__MODULE__, :pop)
   end
 
+  def inspect() do
+    GenServer.cast(__MODULE__, :inspect)
+  end
+
   # 以下は GenServer
 
   def init(items) do
@@ -24,10 +28,43 @@ defmodule Sequence.Stack.Server do
 
   def handle_call(:pop, _from, items) do
     [ head | tail ] = items
+    if head == 777777 do
+      IO.puts("777777をpopするときだけ6秒sleepします")
+      :timer.sleep(6000)
+    end
     {:reply, head, tail}
   end
+
+  def handle_cast(:inspect, items) do
+    IO.inspect(items)
+    {:noreply, items}
+  end
+
+  def handle_cast({:push, item}, items) when item < 10 do
+    IO.puts("小さい数字をもらったら死ぬようにプログラムされているんだ")
+    System.halt(1)
+    {:noreply, items ++ [item]}
+  end
+
+  def handle_cast({:push, item}, items) when item == 999999 do
+    IO.puts("999999をもらったら寝すぎて死にます") # これは死ななかった。castはどれだけ遅くても許されるみたい
+    :timer.sleep(5001)
+    {:noreply, items ++ [item]}
+  end
+
+  def handle_cast({:push, item}, _items) when item == 888888 do
+    IO.puts("888888をもらったら変なものをreturnして死にます")
+    {:bad_return_value} # これは死んだ...がterminateしてくれなかった
+  end
+
   def handle_cast({:push, item}, items) do
     {:noreply, items ++ [item]}
+  end
+
+  def terminate(reason, state) do
+    IO.puts("ウワーッ 死にます これから")
+    IO.inspect(reason)
+    IO.inspect(state)
   end
 end
 
