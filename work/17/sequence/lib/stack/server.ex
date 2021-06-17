@@ -23,6 +23,7 @@ defmodule Sequence.Stack.Server do
   # 以下は GenServer
 
   def init(items) do
+    IO.puts("---復活---")
     {:ok, items}
   end
 
