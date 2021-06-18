@@ -3,9 +3,8 @@ defmodule Sequence.Stack.Server do
 
   # 以下は API
 
-  def start_link(items) do
-    IO.inspect __MODULE__
-    GenServer.start_link(__MODULE__, items, name: __MODULE__)
+  def start_link(_) do
+    GenServer.start_link(__MODULE__, nil, name: __MODULE__)
   end
 
   def push(item) do
@@ -22,17 +21,19 @@ defmodule Sequence.Stack.Server do
 
   # 以下は GenServer
 
-  def init(items) do
+  def init(_) do
     IO.puts("---復活---")
-    {:ok, items}
+    {:ok, Sequence.Stack.Stash.get()}
   end
 
   def handle_call(:pop, _from, items) do
-    [ head | tail ] = items
-    if head == 777777 do
+    [head | tail] = items
+
+    if head == 777_777 do
       IO.puts("777777をpopするときだけ6秒sleepします")
       :timer.sleep(6000)
     end
+
     {:reply, head, tail}
   end
 
@@ -47,15 +48,17 @@ defmodule Sequence.Stack.Server do
     {:noreply, items ++ [item]}
   end
 
-  def handle_cast({:push, item}, items) when item == 999999 do
-    IO.puts("999999をもらったら寝すぎて死にます") # これは死ななかった。castはどれだけ遅くても許されるみたい
+  def handle_cast({:push, item}, items) when item == 999_999 do
+    # これは死ななかった。castはどれだけ遅くても許されるみたい
+    IO.puts("999999をもらったら寝すぎて死にます")
     :timer.sleep(5001)
     {:noreply, items ++ [item]}
   end
 
-  def handle_cast({:push, item}, _items) when item == 888888 do
+  def handle_cast({:push, item}, _items) when item == 888_888 do
     IO.puts("888888をもらったら変なものをreturnして死にます")
-    {:bad_return_value} # これは死んだ...がterminateしてくれなかった
+    # これは死んだ...がterminateしてくれなかった
+    {:bad_return_value}
   end
 
   def handle_cast({:push, item}, items) do
@@ -66,6 +69,7 @@ defmodule Sequence.Stack.Server do
     IO.puts("ウワーッ 死にます これから")
     IO.inspect(reason)
     IO.inspect(state)
+    Sequence.Stack.Stash.update(state)
   end
 end
 
